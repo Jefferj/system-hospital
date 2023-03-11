@@ -1,4 +1,5 @@
-
+const Patients = require('../models/Patients');
+const mongoose = require('mongoose');
 
 
 /**
@@ -33,11 +34,19 @@ exports.addPatients = async (req, res) => {
  */
 
 exports.postPatients = async (req, res) => {
-    const locals = {
-        title: 'New patient added',
-        description: 'Pattiens added exit'
+    console.log(req.body);
+    const newPatients = new Patients({
+        firstName: req.body.firstName,
+        DateOfBirth: req.body.DateOfBirth,
+        Address: req.body.Address
+    });
+    try {
+        await Patients.create(newPatients);
+        res.redirect('/');
+    } catch (error) {
+        console.log(error);
     }
-    res.render('patients/add', locals);
+    
 }
 
 
