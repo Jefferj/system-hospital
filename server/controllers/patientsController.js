@@ -26,6 +26,18 @@ exports.addPatients = async (req, res) => {
     }
     res.render('patients/add', locals);
 }
-    
+
+/**
+ * POST /
+ * Create new patient
+ */
+
+exports.postPatients = async (req, res) => {
+    const locals = {
+        title: 'New patient added',
+        description: 'Pattiens added exit'
+    }
+    res.render('patients/add', locals);
+}
 
 
