@@ -17,14 +17,11 @@ app.use(expressLayout);
 app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
 
-// Home
-app.get('/', (req, res) => {
-
-    const locals = {
-        title: 'Hospital-system',
-        description: 'I am a description'
-    }
-    res.render('index', locals);
+//Routes
+app.use('/', require('.server/routes/patients'))
+// Handle 404
+app.get('*', (req, res) => {
+    res.status(404).render('404');
 });
 
 app.listen(port, () => {
