@@ -131,21 +131,32 @@ exports.edit = async (req, res) => {
 
 /**
  * PUT /
- * Edit Patients Data
+ * Update Patients Data
  */
 
 exports.editPost = async (req, res) => {
     try {
-        const patients = await Patients.findOne({ _id: req.params.id})
-        const locals = {
-            title: "Edit Patients Data",
-            description: "nidvnbewnwinfw"
-        };
+        await Patients.findByIdAndUpdate(req.params.id, {
+            firstName: req.body.firstName,
+            DateOfBirth: req.body.DateOfBirth,
+            Address: req.body.Address,
+            updateAt: Date.now()
+        });
+        res.redirect(`/edit/${req.params.id}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-        res.render('patients/edit', {
-            locals,
-            patients
-        })
+/**
+ * DELETE /
+ * Delete Patients Data
+ */
+
+exports.deletePatients = async (req, res) => {
+    try {
+        await Patients.deleteOne({ _id: req.params.id});
+        res.redirect("/")
     } catch (error) {
         console.log(error);
     }
