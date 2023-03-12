@@ -15,10 +15,12 @@ const PatientsSchema = new Schema({
         required: true
     },
     createAt: {
-        type: Date
+        type: Date,
+        default: Date.now()
     },
     updateAt: {
-        type: Date
+        type: Date,
+        default: Date.now()
     },
 })
 

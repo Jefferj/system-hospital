@@ -8,11 +8,18 @@ const mongoose = require('mongoose');
  */
 
 exports.homepage = async  (req, res) => {
+    const messages = await req.consumeFlash('info');
     const locals = {
         title: 'JeffDev',
         description: 'Hello world'
     }
-    res.render('index', locals );
+    try {
+        const patients = await Patients.find({}).limit(22);
+        res.render('index', { locals, messages, patients} );
+    } catch (error) {
+        console.log(error);
+    }
+    res.render('index', {locals, messages} );
 }
 
 /**
@@ -42,6 +49,7 @@ exports.postPatients = async (req, res) => {
     });
     try {
         await Patients.create(newPatients);
+        await req.flash('info', 'New patient has been added')
         res.redirect('/');
     } catch (error) {
         console.log(error);
