@@ -13,6 +13,35 @@ exports.homepage = async  (req, res) => {
         title: 'JeffDev',
         description: 'Hello world'
     }
+    let perPage = 12;
+    let page = req.query.page || 1;
+    try {
+        const patients = await Patients.aggregate([{$sort: {updateAt: 1} }])
+            .skip(perPage * page - perPage)
+            .limit(perPage)
+            .exec();
+        const count = await Patients.count();
+
+        res.render('index', {
+            locals,
+            patients,
+            current: page,
+            pages: Math.ceil(count / perPage),
+            messages
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/*
+exports.homepage = async  (req, res) => {
+    const messages = await req.consumeFlash('info');
+    const locals = {
+        title: 'JeffDev',
+        description: 'Hello world'
+    }
     try {
         const patients = await Patients.find({}).limit(22);
         res.render('index', { locals, messages, patients} );
@@ -21,7 +50,7 @@ exports.homepage = async  (req, res) => {
     }
     res.render('index', {locals, messages} );
 }
-
+*/
 /**
  * GET /
  * New patients form
@@ -54,7 +83,72 @@ exports.postPatients = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-    
+}
+
+/**
+ * GET /
+ * Patients Data
+ */
+
+exports.view = async (req, res) => {
+    try {
+        const patients = await Patients.findOne({ _id: req.params.id})
+        const locals = {
+            title: "View Patients Data",
+            description: "nidvnbewnwinfw"
+        };
+
+        res.render('patients/view', {
+            locals,
+            patients
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/**
+ * GET /
+ * Edit Patients Data
+ */
+
+exports.edit = async (req, res) => {
+    try {
+        const patients = await Patients.findOne({ _id: req.params.id})
+        const locals = {
+            title: "Edit Patients Data",
+            description: "nidvnbewnwinfw"
+        };
+
+        res.render('patients/edit', {
+            locals,
+            patients
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/**
+ * PUT /
+ * Edit Patients Data
+ */
+
+exports.editPost = async (req, res) => {
+    try {
+        const patients = await Patients.findOne({ _id: req.params.id})
+        const locals = {
+            title: "Edit Patients Data",
+            description: "nidvnbewnwinfw"
+        };
+
+        res.render('patients/edit', {
+            locals,
+            patients
+        })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
