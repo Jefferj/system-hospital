@@ -170,7 +170,7 @@ exports.deletePatients = async (req, res) => {
 exports.searchPatients = async(req, res) => {
     const locals = {
         title: "Searhc Patients Data",
-        description: "nidvnbewnwinfw"
+        description: "Hello World"
     };
     try {
         let searchTerm = req.body.searchTerm;
