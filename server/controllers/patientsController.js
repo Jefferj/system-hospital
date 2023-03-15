@@ -162,4 +162,31 @@ exports.deletePatients = async (req, res) => {
     }
 }
 
+/**
+ * GET /
+ * Search Patients Data
+ */
+
+exports.searchPatients = async(req, res) => {
+    const locals = {
+        title: "Searhc Patients Data",
+        description: "nidvnbewnwinfw"
+    };
+    try {
+        let searchTerm = req.body.searchTerm;
+        const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, "");
+        const patients = await Patients.find({
+            $or: [
+                { firstName: { $regex: new RegExp(searchNoSpecialChar, "i")}},
+                { DateOfBirth: { $regex: new RegExp(searchNoSpecialChar, "i")}},
+            ]
+        });
+        res.render("search", {
+            patients,
+            locals
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 

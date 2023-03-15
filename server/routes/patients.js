@@ -9,5 +9,6 @@ router.get('/views/:id', patientsController.view);
 router.get('/edit/:id', patientsController.edit);
 router.put('/edit/:id', patientsController.editPost);
 router.delete('/edit/:id', patientsController.deletePatients);
+router.post('/search/:id', patientsController.searchPatients);
 
 module.exports = router;
